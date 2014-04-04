@@ -16,14 +16,21 @@ def shaping(name, sjis, utf8)
   end
 end
 
-def makecs()
-  out = File.open("./to_sjis.cs", "w")
-  File.open("./hirakata_s.csv") do |f|
+def writecs(out, path, key, val)
+  File.open("./#{path}_s.csv") do |f|
     f.each do |row|
       row = row.chomp.split(',')
-      out.write("\{0x#{row[0]}, 0x#{row[1]}\},\n")
+      unless row.include?("------") then
+        out.write("\{0x#{row[key]}, 0x#{row[val]}\},\n")
+      end
     end
   end
+end
+
+def makecs()
+  out = File.open("./to_sjis.cs", "w")
+  writecs(out, "hirakata", 0, 1)
+  writecs(out, "kanji", 0, 1)
 end
 
 shaping("hirakata", 1, 3)
