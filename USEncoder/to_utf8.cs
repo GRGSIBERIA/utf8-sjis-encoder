@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace USEncoder
 {
-    class ToUTF8
+    public class ToUTF8
     {
-        public static int Get(int code)
+        public static int GetCode(int sjis_code)
         {
-            return table[code];
+            return table[sjis_code];
         }
 
         static Dictionary<int, int> table = new Dictionary<int, int>() 

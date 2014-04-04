@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 
-
 namespace USEncoder
 {
-    class ToSJIS
+    public class ToSJIS
     {
+        public static int GetCode(int utf8_code)
+        {
+            return table[utf8_code];
+        }
+
         static Dictionary<int, int> table = new Dictionary<int, int>() 
         {
             {0x20, 0x20},
