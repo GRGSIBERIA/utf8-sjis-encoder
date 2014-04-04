@@ -36,5 +36,5 @@ end
 shaping("hirakata", 1, 3)
 shaping("kanji", 4, 6)
 
-makecs("to_sjis", 0, 1)
-makecs("to_utf8", 1, 0)
+makecs("to_utf8", 0, 1)
+makecs("to_sjis", 1, 0)
