@@ -2,9 +2,14 @@ using System.Collections.Generic;
 
 namespace USEncoder
 {
-    class SJISToUTF8
+    class ToUTF8
     {
-        Dictionary<int, int> sjis_utf8_table = new Dictionary<int, int>() 
+        public static int Get(int code)
+        {
+            return table[code];
+        }
+
+        static Dictionary<int, int> table = new Dictionary<int, int>() 
         {
             {0x20, 0x20},
             {0x21, 0x21},

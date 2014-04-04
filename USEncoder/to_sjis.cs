@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace USEncoder
 {
-    class UTF8ToSJIS
+    class ToSJIS
     {
-        Dictionary<int, int> utf8_sjis_table = new Dictionary<int, int>() 
+        static Dictionary<int, int> table = new Dictionary<int, int>() 
         {
             {0x20, 0x20},
             {0x21, 0x21},
