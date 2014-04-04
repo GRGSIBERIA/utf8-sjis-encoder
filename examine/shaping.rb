@@ -27,13 +27,14 @@ def writecs(out, path, key, val)
   end
 end
 
-def makecs()
-  out = File.open("./to_sjis.cs", "w")
-  writecs(out, "hirakata", 0, 1)
-  writecs(out, "kanji", 0, 1)
+def makecs(path, key, val)
+  out = File.open("./#{path}.cs", "w")
+  writecs(out, "hirakata", key, val)
+  writecs(out, "kanji", key, val)
 end
 
 shaping("hirakata", 1, 3)
 shaping("kanji", 4, 6)
 
-makecs
+makecs("to_sjis", 0, 1)
+makecs("to_utf8", 1, 0)
