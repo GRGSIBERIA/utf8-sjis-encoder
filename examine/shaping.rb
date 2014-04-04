@@ -7,8 +7,10 @@ def shaping(name, sjis, utf8)
   File.open("./#{name}.csv") do |f|
     f.each do |row|
       row = row.split(',')
-      if row.length > 2 then
-        out.write(row[sjis] + "," + row[utf8] + "\n")
+      unless row.include?("SJIS")
+        if row.length > 2 then
+          out.write(row[sjis] + "," + row[utf8] + "\n")
+        end
       end
     end
   end
