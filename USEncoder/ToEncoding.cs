@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace USEncoder
 {
-    public class ToSJISEncoder
+    public class ToEncoding
     {
-        public static byte[] Encode(string utf8_str)
+        public static byte[] ToSJIS(string utf8_str)
         {
             byte[] utf8_bytes = Encoding.UTF8.GetBytes(utf8_str);
             List<byte> sjis_bytes = new List<byte>();
@@ -21,7 +21,7 @@ namespace USEncoder
                     // 2バイト文字
                     int code = a << 8;
                     code += utf8_bytes[i + 1];
-                    i += 2;
+                    i += 1;     // ループ終端でさらにi++される
 
                     EncodeSJIS(sjis_bytes, code);
                 }
@@ -31,7 +31,7 @@ namespace USEncoder
                     int code = a << 16;
                     code += utf8_bytes[i + 1] << 8;
                     code += utf8_bytes[i + 2];
-                    i += 3;
+                    i += 2;
 
                     EncodeSJIS(sjis_bytes, code);
                 }
@@ -47,9 +47,15 @@ namespace USEncoder
 
         static void EncodeSJIS(List<byte> sjis_bytes, int code)
         {
-            int sjis_code = ToSJIS.GetCode(code);
+            int sjis_code = USEncoder.ToSJIS.GetCode(code);
             sjis_bytes.Add((byte)(sjis_code & 0xFF00));
             sjis_bytes.Add((byte)(sjis_code & 0xFF));
+        }
+
+        static byte[] ToUTF8(byte[] sjis_bytes)
+        {
+            List<byte> utf8_bytes = new List<byte>();
+            return null;
         }
     }
 }
