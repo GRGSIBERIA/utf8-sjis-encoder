@@ -27,3 +27,11 @@ SJISからUTF-8へ変換する関数です．
 UTF-8へ変換済みの文字列型を返します．
 
 sjis_bytesはSJISに変換されたbyte型配列です．
+
+## Copyright
+このライブラリはパブリック・ドメインです．
+報告，著作権表記等は必要ありません．
+自由にお使いください．
+
+竹渕瑛一(GRGSIBERIA)
+[Twitter](https://twitter.com/GRGSIBERIA)
