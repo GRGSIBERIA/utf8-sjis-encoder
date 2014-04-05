@@ -12,7 +12,9 @@ namespace USEncoder
 
         static void Main(string[] args)
         {
-            
+            var a = Encoding.BigEndianUnicode.GetBytes("あ艦");
+            foreach (var b in a)
+                Console.WriteLine(b);
         }
 
     }
