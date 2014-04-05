@@ -58,7 +58,7 @@ namespace USEncoder
             for (int i = 0; i < sjis_bytes.Length; i++)
             {
                 byte a = sjis_bytes[i];
-                if (a >= 0x81 && a <= 0xEF)
+                if ((a >= 0x81 && a <= 0xEF) || (a >= 0xA1 && a <= 0xDF))
                 {
                     // 2バイト
                     uint sjis_code = (uint)a << 8;
@@ -73,7 +73,7 @@ namespace USEncoder
                 }
             }
 
-            return null;
+            return utf8_bytes.ToArray();
         }
 
         static void EncodeUTF8(List<byte> utf8_bytes, uint code)
