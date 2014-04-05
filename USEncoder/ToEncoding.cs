@@ -93,7 +93,6 @@ namespace USEncoder
             uint utf8_code = USEncoder.ToUTF8.GetCode(code);
             byte[] utf8 = BitConverter.GetBytes(utf8_code);
 
-            byte a = utf8[0];
             // 何バイトなのか判別できないので，数値の大きさで決める
             if (utf8_code >= 0xE20000 && utf8_code <= 0xEF0000)
             {
