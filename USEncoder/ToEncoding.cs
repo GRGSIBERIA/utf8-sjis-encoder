@@ -63,8 +63,8 @@ namespace USEncoder
         /// SJISからUTF-8へ変換します
         /// </summary>
         /// <param name="sjis_bytes">SJISにエンコードされたbyte[]</param>
-        /// <returns>UTF-8に変換済みのbyte[]</returns>
-        public static byte[] ToUTF8(byte[] sjis_bytes)
+        /// <returns>UTF-8に変換済みの文字列</returns>
+        public static string ToUTF8(byte[] sjis_bytes)
         {
             List<byte> utf8_bytes = new List<byte>();
 
@@ -86,7 +86,7 @@ namespace USEncoder
                 }
             }
 
-            return utf8_bytes.ToArray();
+            return Encoding.UTF8.GetString(utf8_bytes.ToArray());
         }
 
         static void EncodeUTF8(List<byte> utf8_bytes, uint code)

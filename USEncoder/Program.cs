@@ -37,7 +37,8 @@ namespace USEncoder
         {
             var sjis = ConvertEncoding(Encoding.GetEncoding(932), str);
             var sjis_bytes = Encoding.GetEncoding(932).GetBytes(sjis);
-            var utf8_bytes = ToEncoding.ToUTF8(sjis_bytes);
+            var utf8 = ToEncoding.ToUTF8(sjis_bytes);
+            var utf8_bytes = Encoding.UTF8.GetBytes(utf8);
             var clone = ConvertEncoding(Encoding.UTF8, str);
             var clone_bytes = Encoding.UTF8.GetBytes(clone);
 
