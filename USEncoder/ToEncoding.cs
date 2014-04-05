@@ -16,7 +16,7 @@ namespace USEncoder
             for (int i = 0; i < utf8_bytes.Length; i++)
             {
                 byte a = utf8_bytes[i];
-                if (a == 0xC2 || a == 0xC3 || (a >= 0xCE && a <= 0xD1))
+                if ((a >= 0xC2 && a <= 0xC3) || (a >= 0xCE && a <= 0xD1))
                 {
                     // 2バイト文字
                     int code = a << 8;
@@ -89,7 +89,7 @@ namespace USEncoder
                 utf8_bytes.Add(utf8[1]);
                 utf8_bytes.Add(utf8[0]);
             }
-            else if (utf8_code >= 0xC200 || utf8_code >= 0xC300 || (utf8_code >= 0xCE00 && utf8_code <= 0xD100))
+            else if ((utf8_code >= 0xC200 && utf8_code <= 0xC300) || (utf8_code >= 0xCE00 && utf8_code <= 0xD100))
             {
                 // 2バイト
                 utf8_bytes.Add(utf8[1]);

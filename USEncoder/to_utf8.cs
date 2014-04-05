@@ -4,12 +4,12 @@ namespace USEncoder
 {
     public class ToUTF8
     {
-        public static int GetCode(int sjis_code)
+        public static uint GetCode(uint sjis_code)
         {
             return table[sjis_code];
         }
 
-        static Dictionary<int, int> table = new Dictionary<int, int>() 
+        static Dictionary<uint, uint> table = new Dictionary<uint, uint>() 
         {
             {0x20, 0x20},
             {0x21, 0x21},
