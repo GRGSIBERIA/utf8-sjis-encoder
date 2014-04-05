@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace USEncoder
 {
+    /// <summary>
+    /// SJISとUTF-8の相互変換を行うクラス
+    /// </summary>
     public class ToEncoding
     {
+        /// <summary>
+        /// UTF8からSJISへ変換します
+        /// </summary>
+        /// <param name="utf8_str">UTF-8にエンコードされた文字列</param>
+        /// <returns>SJISに変換済みのbyte[]</returns>
         public static byte[] ToSJIS(string utf8_str)
         {
             byte[] utf8_bytes = Encoding.UTF8.GetBytes(utf8_str);
@@ -51,6 +59,11 @@ namespace USEncoder
             sjis_bytes.Add(sjis[0]);
         }
 
+        /// <summary>
+        /// SJISからUTF-8へ変換します
+        /// </summary>
+        /// <param name="sjis_bytes">SJISにエンコードされたbyte[]</param>
+        /// <returns>UTF-8に変換済みのbyte[]</returns>
         public static byte[] ToUTF8(byte[] sjis_bytes)
         {
             List<byte> utf8_bytes = new List<byte>();
