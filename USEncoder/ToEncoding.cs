@@ -19,7 +19,7 @@ namespace USEncoder
                 if ((a >= 0xC2 && a <= 0xC3) || (a >= 0xCE && a <= 0xD1))
                 {
                     // 2バイト文字
-                    int code = a << 8;
+                    uint code = (uint)a << 8;
                     code += utf8_bytes[++i];
 
                     EncodeSJIS(sjis_bytes, code);
@@ -27,9 +27,9 @@ namespace USEncoder
                 else if (a >= 0xE2 && a <= 0xEF) 
                 {
                     // 3バイト文字
-                    int code = a << 16;
-                    code += utf8_bytes[++i] << 8;
-                    code += utf8_bytes[++i];
+                    uint code = (uint)a << 16;
+                    code += (uint)utf8_bytes[++i] << 8;
+                    code += (uint)utf8_bytes[++i];
 
                     EncodeSJIS(sjis_bytes, code);
                 }
@@ -43,9 +43,9 @@ namespace USEncoder
             return sjis_bytes.ToArray();
         }
 
-        static void EncodeSJIS(List<byte> sjis_bytes, int code)
+        static void EncodeSJIS(List<byte> sjis_bytes, uint code)
         {
-            int sjis_code = USEncoder.ToSJIS.GetCode(code);
+            uint sjis_code = USEncoder.ToSJIS.GetCode(code);
             byte[] sjis = BitConverter.GetBytes(sjis_code);
             sjis_bytes.Add(sjis[1]);
             sjis_bytes.Add(sjis[0]);
@@ -61,7 +61,7 @@ namespace USEncoder
                 if (a >= 0x81 && a <= 0xEF)
                 {
                     // 2バイト
-                    int sjis_code = a << 8;
+                    uint sjis_code = (uint)a << 8;
                     sjis_code += sjis_bytes[++i];
 
                     EncodeUTF8(utf8_bytes, sjis_code);
@@ -76,9 +76,9 @@ namespace USEncoder
             return null;
         }
 
-        static void EncodeUTF8(List<byte> utf8_bytes, int code)
+        static void EncodeUTF8(List<byte> utf8_bytes, uint code)
         {
-            int utf8_code = USEncoder.ToUTF8.GetCode(code);
+            uint utf8_code = USEncoder.ToUTF8.GetCode(code);
             byte[] utf8 = BitConverter.GetBytes(utf8_code);
 
             byte a = utf8[0];
