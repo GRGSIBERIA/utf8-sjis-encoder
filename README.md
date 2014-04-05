@@ -31,13 +31,13 @@ sjis_bytesはSJISに変換されたbyte型配列です．
 もし，Encoding.UTF8が環境によって対応していない場合，
 byte型配列を返すよう，以下のように修正してください．
 
-  // ToEncoding.cs
-  // - public static string ToUTF8(byte[] sjis_bytes)
-  public static byte[] ToUTF8(byte[] sjis_bytes)
+```ToEncoding.cs
+// - public static string ToUTF8(byte[] sjis_bytes)
+public static byte[] ToUTF8(byte[] sjis_bytes)
 
-  // - return Encoding.UTF8.GetString(utf8_bytes.ToArray());
-  return utf8_bytes.ToArray();
-
+// - return Encoding.UTF8.GetString(utf8_bytes.ToArray());
+return utf8_bytes.ToArray();
+```
 
 ## Copyright
 このライブラリはパブリック・ドメインです．
