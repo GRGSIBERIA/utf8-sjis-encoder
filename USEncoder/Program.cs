@@ -8,12 +8,29 @@ namespace USEncoder
 {
     class Program
     {
-        const string str = "こんにちは日本";
+        const string str = "こんにちは日本チルドレンchildren";
 
         static void Main(string[] args)
         {
             TestToSJIS();
             TestToUTF8();
+        }
+
+        static string ConvertEncoding(Encoding dest, string str)
+        {
+            byte[] str_bytes = Encoding.Unicode.GetBytes(str);
+            byte[] to_bytes = Encoding.Convert(Encoding.Unicode, dest, str_bytes);
+            return dest.GetString(to_bytes);
+        }
+
+        static void Check(byte[] src, byte[] clone)
+        {
+            Console.WriteLine("{0}, {1}", src.Length, clone.Length);
+            for (int i = 0; i < src.Length; i++)
+            {
+                Console.WriteLine("{0}, {1}, {2}", src[i], clone[i], src[i] == clone[i]);
+            }
+            Console.WriteLine("--------------------------");
         }
 
         static void TestToUTF8()
@@ -24,18 +41,7 @@ namespace USEncoder
             var clone = ConvertEncoding(Encoding.UTF8, str);
             var clone_bytes = Encoding.UTF8.GetBytes(clone);
 
-            Console.WriteLine("{0}, {1}", utf8_bytes.Length, clone_bytes.Length);
-            for (int i = 0; i < utf8_bytes.Length; i++)
-            {
-                Console.WriteLine("{0}, {1}, {2}", utf8_bytes[i], clone_bytes[i], utf8_bytes[i] == clone_bytes[i]);
-            }
-        }
-
-        static string ConvertEncoding(Encoding dest, string str)
-        {
-            byte[] str_bytes = Encoding.Unicode.GetBytes(str);
-            byte[] to_bytes = Encoding.Convert(Encoding.Unicode, dest, str_bytes);
-            return dest.GetString(to_bytes);
+            Check(utf8_bytes, clone_bytes);
         }
 
         static void TestToSJIS()
@@ -45,12 +51,7 @@ namespace USEncoder
             var clone = ConvertEncoding(Encoding.GetEncoding(932), str);
             var clone_bytes = Encoding.GetEncoding(932).GetBytes(clone);
 
-            Console.WriteLine("{0}, {1}", sjis_bytes.Length, clone_bytes.Length);
-            for (int i = 0; i < sjis_bytes.Length; i++)
-            {
-                Console.WriteLine("{0}, {1}, {2}", sjis_bytes[i], clone_bytes[i], sjis_bytes[i] == clone_bytes[i]);
-            }
-            Console.WriteLine("--------------------------");
+            Check(sjis_bytes, clone_bytes);
         }
     }
 }
