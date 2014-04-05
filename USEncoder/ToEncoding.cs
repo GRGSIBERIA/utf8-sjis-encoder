@@ -20,8 +20,7 @@ namespace USEncoder
                 {
                     // 2バイト文字
                     int code = a << 8;
-                    code += utf8_bytes[i + 1];
-                    i += 1;     // ループ終端でさらにi++される
+                    code += utf8_bytes[++i];
 
                     EncodeSJIS(sjis_bytes, code);
                 }
@@ -29,9 +28,8 @@ namespace USEncoder
                 {
                     // 3バイト文字
                     int code = a << 16;
-                    code += utf8_bytes[i + 1] << 8;
-                    code += utf8_bytes[i + 2];
-                    i += 2;
+                    code += utf8_bytes[++i] << 8;
+                    code += utf8_bytes[++i];
 
                     EncodeSJIS(sjis_bytes, code);
                 }
@@ -48,14 +46,60 @@ namespace USEncoder
         static void EncodeSJIS(List<byte> sjis_bytes, int code)
         {
             int sjis_code = USEncoder.ToSJIS.GetCode(code);
-            sjis_bytes.Add((byte)(sjis_code & 0xFF00));
-            sjis_bytes.Add((byte)(sjis_code & 0xFF));
+            byte[] sjis = BitConverter.GetBytes(sjis_code);
+            sjis_bytes.Add(sjis[1]);
+            sjis_bytes.Add(sjis[0]);
         }
 
-        static byte[] ToUTF8(byte[] sjis_bytes)
+        public static byte[] ToUTF8(byte[] sjis_bytes)
         {
             List<byte> utf8_bytes = new List<byte>();
+
+            for (int i = 0; i < sjis_bytes.Length; i++)
+            {
+                byte a = sjis_bytes[i];
+                if (a >= 0x81 && a <= 0xEF)
+                {
+                    // 2バイト
+                    int sjis_code = a << 8;
+                    sjis_code += sjis_bytes[++i];
+
+                    EncodeUTF8(utf8_bytes, sjis_code);
+                }
+                else
+                {
+                    // 1バイト
+                    utf8_bytes.Add(a);
+                }
+            }
+
             return null;
+        }
+
+        static void EncodeUTF8(List<byte> utf8_bytes, int code)
+        {
+            int utf8_code = USEncoder.ToUTF8.GetCode(code);
+            byte[] utf8 = BitConverter.GetBytes(utf8_code);
+
+            byte a = utf8[0];
+            if (utf8_code >= 0xE20000 && utf8_code <= 0xEF0000)
+            {
+                // 3バイト
+                utf8_bytes.Add(utf8[2]);
+                utf8_bytes.Add(utf8[1]);
+                utf8_bytes.Add(utf8[0]);
+            }
+            else if (utf8_code >= 0xC200 || utf8_code >= 0xC300 || (utf8_code >= 0xCE00 && utf8_code <= 0xD100))
+            {
+                // 2バイト
+                utf8_bytes.Add(utf8[1]);
+                utf8_bytes.Add(utf8[0]);
+            }
+            else
+            {
+                // 1バイト
+                utf8_bytes.Add(utf8[0]);
+            }
         }
     }
 }
