@@ -2,7 +2,7 @@ unicode-sjis-encoder
 =================================
 
 ## 概要
-Unicode(UTF-16)とSJISを相互に変換するためのライブラリです．
+Unicode(UTF-16)とSJIS(cp932)を相互に変換するためのライブラリです．
 環境によってEncoding.GetEncoding(932)が使えない場合があるため作りました．
 
 utf8という単語が出現することがありますが，実装上の諸事情（C#の文字リテラルがそもそもUnicode，UTF-8よりもUnicodeのほうが軽く作れる等）によりUnicodeになりました．
