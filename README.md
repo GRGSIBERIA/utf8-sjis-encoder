@@ -24,7 +24,7 @@ SJISへ変換済みのbyte型の配列を返します．
 
 utf8_strはUnicodeに変換された文字列です．
 
-### ToEncoding.ToUTF8(byte[] sjis_bytes) : string
+### ToEncoding.ToUnicode(byte[] sjis_bytes) : string
 SJISからUnicodeへ変換する関数です．
 Unicodeへ変換済みの文字列型を返します．
 
