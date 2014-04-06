@@ -21,7 +21,7 @@ def writecs(out, path, key, val)
     f.each do |row|
       row = row.chomp.split(',')
       unless row.include?("------") then
-        out.write("0x#{row[key]}, 0x#{row[val]}\n")
+        out.write("#{row[key].hex}, #{row[val].hex}\n")
       end
     end
   end
@@ -61,5 +61,5 @@ shaping("kanji", 4, 7)
 makecs("to_utf8", 0, 1)
 makecs("to_sjis", 1, 0)
 
-toarray("to_utf8")
-toarray("to_sjis")
+#toarray("to_utf8")
+#toarray("to_sjis")

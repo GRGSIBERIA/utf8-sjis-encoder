@@ -17,15 +17,23 @@ namespace USEncoder
 
             for (int i = 0; i < uni_bytes.Length; i++)
             {
+                // unicodeは英数字でも2バイト使う
                 ushort uni_code = (ushort)(uni_bytes[i] << 8);
-                uni_code += uni_bytes[i + 1];
+                uni_code += uni_bytes[++i];
 
                 ushort sjis_code = USEncoder.ToSJIS.GetCode(uni_code);
-                sjis_bytes.Add((byte)(sjis_code & 0xFF00));
-                if (sjis_code >= 0x8140)
+                byte top = (byte)(sjis_code >> 8);
+                byte under = (byte)(sjis_code & 0xFF);
+
+                if ((top >= 0x81 && top <= 0x9F) || (top >= 0xE0 && top <= 0xEA))
                 {
-                    sjis_bytes.Add((byte)(sjis_code & 0xFF));
-                    ++i;
+                    // 2バイト文字の範囲
+                    sjis_bytes.Add(top);
+                    sjis_bytes.Add(under);
+                }
+                else
+                {
+                    sjis_bytes.Add(under);
                 }
             }
 
@@ -38,13 +46,28 @@ namespace USEncoder
 
             for (int i = 0; i < sjis_bytes.Length; i++)
             {
-                ushort sjis_code = (ushort)(sjis_bytes[i] << 8);
-                sjis_code += sjis_bytes[i + 1];
+                ushort sjis_code;
 
-                // まだ途中
+                if ((sjis_bytes[i] >= 0x81 && sjis_bytes[i] <= 0x9F) || (sjis_bytes[i] >= 0xE0 && sjis_bytes[i] <= 0xEA))
+                {
+                    // 2バイト文字
+                    sjis_code = (ushort)(sjis_bytes[i] << 8);
+                    sjis_code += sjis_bytes[++i];
+                }
+                else
+                {
+                    // 1バイト文字
+                    sjis_code = sjis_bytes[i];
+                }
+
+                ushort uni_code = USEncoder.ToUnicode.GetCode(sjis_code);
+                byte top = (byte)(uni_code >> 8);
+                byte under = (byte)(uni_code & 0xFF);
+                uni_bytes.Add(under);
+                uni_bytes.Add(top);     // テーブルがBigEndianだったので，underとtopを逆にしてLittleに戻す
             }
 
-            return null;
+            return Encoding.Unicode.GetString(uni_bytes.ToArray());
         }
     }
 }
