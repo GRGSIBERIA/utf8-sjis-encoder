@@ -20,7 +20,7 @@ SJISに存在しない文字を投げると確実に文字化けします．
 ## 使い方
 ToEncoding.ToSJIS関数，ToEncoding.ToUTF8関数を用意しています．
 
-### ToEncoding.ToSJIS(string utf8_str) : byte[]
+### ToEncoding.ToSJIS(string unicode_str) : byte[]
 UnicodeからSJISへ変換する関数です．
 SJISへ変換済みのbyte型の配列を返します．
 
